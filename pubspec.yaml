@@ -22,6 +22,8 @@ dependencies:
   url_launcher: ^6.2.5
   google_fonts: ^6.2.1
   animated_line_through: ^1.0.4
+  animated_flip_counter: ^0.3.4
+  animated_text_kit: ^4.2.2
 
 dev_dependencies:
   flutter_test:

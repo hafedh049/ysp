@@ -14,7 +14,33 @@ class Header extends StatefulWidget {
 }
 
 class _HeaderState extends State<Header> {
-  final List<bool> _states = List<bool>.generate(4, (int index) => false);
+  final List<Map<String, dynamic>> _headers = <Map<String, dynamic>>[
+    <String, dynamic>{
+      "title": "HOME",
+      "icon": FontAwesome.house_solid,
+      "callback": () {},
+      "state": false,
+    },
+    <String, dynamic>{
+      "title": "ARCHIVES",
+      "icon": FontAwesome.box_archive_solid,
+      "callback": () {},
+      "state": false,
+    },
+    <String, dynamic>{
+      "title": "CATEGORIES",
+      "icon": FontAwesome.folder_solid,
+      "callback": () {},
+      "state": false,
+    },
+    <String, dynamic>{
+      "title": "ABOUT",
+      "icon": FontAwesome.user_solid,
+      "callback": () {},
+      "state": false,
+    },
+  ];
+
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
@@ -32,37 +58,37 @@ class _HeaderState extends State<Header> {
                   return Row(
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
-                      InkWell(
-                        splashColor: transparent,
-                        highlightColor: transparent,
-                        hoverColor: transparent,
-                        onHover: (bool value) => _(() => _states[0] = value),
-                        onTap: () {},
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: <Widget>[
-                            Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: <Widget>[
-                                const Icon(FontAwesome.house_solid, color: teal, size: 15),
-                                const SizedBox(width: 10),
-                                AnimatedDefaultTextStyle(
-                                  duration: 300.ms,
-                                  style: GoogleFonts.itim(
-                                    letterSpacing: 2,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w500,
-                                    color: _states[0] ? teal : lightWhite,
-                                  ),
-                                  child: const Text("HOME"),
+                      for (int index = 0; index < _headers.length; index += 1)
+                        InkWell(
+                          splashColor: transparent,
+                          highlightColor: transparent,
+                          hoverColor: transparent,
+                          onHover: (bool value) => _(() => _headers[index]["state"] = value),
+                          onTap: _headers[index]["callback"],
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              AnimatedContainer(
+                                duration: 300.ms,
+                                margin: index == _headers.length - 1 ? null : const EdgeInsets.only(right: 20),
+                                padding: const EdgeInsets.only(bottom: 8),
+                                decoration: BoxDecoration(border: Border(bottom: BorderSide(color: _headers[index]["state"] ? teal : transparent, width: 2))),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: <Widget>[
+                                    Icon(_headers[index]["icon"], color: _headers[index]["state"] ? teal : lightWhite, size: 15),
+                                    const SizedBox(width: 10),
+                                    AnimatedDefaultTextStyle(
+                                      duration: 300.ms,
+                                      style: GoogleFonts.itim(letterSpacing: 2, fontSize: 16, fontWeight: FontWeight.w500, color: _headers[index]["state"] ? teal : lightWhite),
+                                      child: Text(_headers[index]["title"]),
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            ),
-                            const SizedBox(height: 10),
-                            AnimatedContainer(duration: 300.ms, height: .5, color: teal, width: 50),
-                          ],
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
                     ],
                   );
                 },
